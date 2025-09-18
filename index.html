@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EduERP — Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="lundRUlogin">
+  <div class="center-viewport">
+    <div class="login-box glass-card">
+      <h2>EduERP</h2>
+      <p class="muted">Admin / Student login</p>
+
+      <label for="loginUser">Username</label>
+      <input id="loginUser" autocomplete="username" />
+
+      <label for="loginPass">Password</label>
+      <input id="loginPass" type="password" autocomplete="current-password" />
+
+      <button id="loginBtn" class="primary btn">Login</button>
+      <div id="loginMsg" class="login-msg" aria-live="polite"></div>
+
+      <div style="margin-top:10px" class="muted small">
+        Admin: <strong>admin</strong> / <strong>1234</strong><br>
+        Sample student (if none): <strong>ankit / pass1</strong>
+      </div>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+<script>
+  const loginBtn = document.getElementById('loginBtn');
+  const loginUser = document.getElementById('loginUser');
+  const loginPass = document.getElementById('loginPass');
+  const loginMsg = document.getElementById('loginMsg');
+
+  function clearMsg(){ loginMsg.textContent=''; }
+
+  loginBtn.addEventListener('click', ()=>{
+    clearMsg();
+    if(!login(loginUser.value, loginPass.value)) loginMsg.textContent = 'Invalid credentials';
+  });
+
+  [loginUser, loginPass].forEach(el => el.addEventListener('keydown', e => {
+    if(e.key === 'Enter') loginBtn.click();
+  }));
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EduERP — Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">A</div>
+      <div>
+        <div style="font-weight:700">Admin Portal</div>
+        <div class="muted">Manage students & notes</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+      <button class="nav-btn" data-view="students">Students</button>
+      <button class="nav-btn" data-view="attendance">Attendance</button>
+      <button class="nav-btn" data-view="notes">Notes</button>
+      <button class="nav-btn" data-view="complaints">Complaints</button>
+    </nav>
+
+    <div style="position:absolute;bottom:18px;left:14px;right:14px">
+      <button id="adminLogout" class="ghost btn">Logout</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1 id="adminTitle">Dashboard</h1>
+      <div>
+        <button id="addStudentBtn" class="primary btn">Add Student</button>
+        <button id="exportBtn" class="ghost btn">Export CSV</button>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboardView">
+      <div class="card-grid">
+        <div class="card"><h3>Total Students</h3><p id="totalStudents">0</p></div>
+        <div class="card"><h3>Pending Dues</h3><p id="totalDue">₹0</p></div>
+        <div class="card"><h3>Notes</h3><p id="totalNotes">0</p></div>
+        <div class="card"><h3>Complaints</h3><p id="totalComplaints">0</p></div>
+      </div>
+    </div>
+
+    <!-- Students -->
+    <div id="studentsView" class="hidden">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+        <label class="muted">Filter by course</label>
+        <select id="courseFilter"><option value="">All courses</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Name</th><th>Roll</th><th>Course</th><th>Fees Paid/Total</th><th>Actions</th></tr></thead>
+          <tbody id="studentsTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Attendance -->
+    <div id="attendanceView" class="hidden">
+      <div class="table-wrap">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><h3>Daily Attendance</h3><div class="muted">Select date and mark present/absent</div></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <label class="muted">Date</label>
+            <input type="date" id="attendanceDate">
+            <button id="markAllPresent" class="ghost btn">Mark All Present</button>
+          </div>
+        </div>
+        <table><thead><tr><th>Name</th><th>Roll</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="attendanceTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div id="notesView" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div>
+          <h3>Notes</h3>
+          <div class="muted">Upload notes course-wise. Students will see notes for their course only.</div>
+        </div>
+        <div>
+          <button id="uploadNoteBtn" class="primary btn">Upload Note</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table><thead><tr><th>Title</th><th>Course</th><th>Uploaded</th><th>Actions</th></tr></thead><tbody id="notesTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- Complaints -->
+    <div id="complaintsView" class="hidden">
+      <div class="table-wrap">
+        <h3>Complaints</h3>
+        <table><thead><tr><th>Student</th><th>Complaint</th><th>Date</th></tr></thead><tbody id="complaintsTable"></tbody></table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Student Modal (Add / Edit) -->
+<div id="studentModal" class="modal" aria-hidden="true">
+  <div class="panel">
+    <h3 id="modalTitle">Add New Student</h3>
+    <div class="form-grid">
+      <div class="full"><label>Name</label><input id="stuName"></div>
+      <div><label>Roll</label><input id="stuRoll"></div>
+      <div><label>Course</label><input id="stuCourse" placeholder="e.g. B.Tech CSE"></div>
+      <div><label>Username</label><input id="stuUsername" readonly></div>
+      <div><label>Password</label><input id="stuPassword"></div>
+      <div><label>Total Fee</label><input id="stuTotalFee" type="number"></div>
+      <div><label>Paid Fee</label><input id="stuPaidFee" type="number" value="0"></div>
+      <div class="full" style="text-align:right">
+        <button id="saveStudent" class="primary btn">Save</button>
+        <button id="cancelStudent" class="ghost btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Note Upload Modal -->
+<div id="noteModal" class="modal" aria-hidden="true">
+  <div class="panel">
+    <h3>Upload Note</h3>
+    <div class="form-grid">
+      <div class="full"><label>Title</label><input id="noteTitle"></div>
+      <div class="full"><label>Description (short)</label><input id="noteDesc"></div>
+      <div><label>Course</label><input id="noteCourse" placeholder="e.g. B.Tech CSE"></div>
+      <div><label>File (optional)</label><input id="noteFile" type="file" accept=".pdf,.txt,.doc,.docx,image/*"></div>
+      <div class="full" style="text-align:right">
+        <button id="saveNote" class="primary btn">Upload</button>
+        <button id="cancelNote" class="ghost btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+if(sessionStorage.getItem('role') !== 'admin') window.location.href = 'index.html';
+document.getElementById('adminLogout').addEventListener('click', () => { sessionStorage.clear(); window.location.href='index.html'; });
+
+renderAdminDashboard();
+renderStudentsTable();
+setupAdminNav();
+setupStudentModal();
+setupNotesUI();
+</script>
+</body>
+</html>

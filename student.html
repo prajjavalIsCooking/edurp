@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EduERP — Student</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">S</div><div><div style="font-weight:700">Student Portal</div><div class="muted">Your dashboard</div></div></div>
+    <nav class="nav">
+      <button class="nav-btn active" data-view="profile">Profile</button>
+      <button class="nav-btn" data-view="attendance">Attendance</button>
+      <button class="nav-btn" data-view="notes">Notes</button>
+      <button class="nav-btn" data-view="complaint">Complaint</button>
+    </nav>
+    <div style="position:absolute;bottom:18px;left:14px;right:14px">
+      <button id="studentLogout" class="ghost btn">Logout</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar"><h1 id="studentTitle">Profile</h1></div>
+
+    <div id="profileView">
+      <div class="card-grid">
+        <div class="card" id="studentInfo">—</div>
+        <div class="card">
+          <h4>Fees</h4>
+          <p>Paid: <span id="s_paid">₹0</span></p>
+          <p>Total: <span id="s_total">₹0</span></p>
+          <p>Due: <span id="s_due">₹0</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="attendanceView" class="hidden">
+      <div class="table-wrap">
+        <h3>Attendance History</h3>
+        <table><thead><tr><th>Date</th><th>Status</th></tr></thead><tbody id="stuAttendanceTable"></tbody></table>
+      </div>
+    </div>
+
+    <div id="notesView" class="hidden">
+      <div class="table-wrap">
+        <h3>Course Notes</h3>
+        <div class="muted">Only notes for your course will be visible.</div>
+        <table><thead><tr><th>Title</th><th>Description</th><th>File</th><th>Uploaded</th></tr></thead>
+        <tbody id="studentNotesTable"></tbody></table>
+      </div>
+    </div>
+
+    <div id="complaintView" class="hidden">
+      <div class="table-wrap">
+        <h3>Submit Complaint</h3>
+        <textarea id="stuComplaint" placeholder="Write your complaint"></textarea>
+        <div style="margin-top:8px"><button id="submitComplaint" class="primary btn">Submit</button></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="script.js"></script>
+<script>
+if(sessionStorage.getItem('role') !== 'student') window.location.href = 'index.html';
+const username = sessionStorage.getItem('username');
+document.getElementById('studentLogout').addEventListener('click', () => { sessionStorage.clear(); window.location.href='index.html'; });
+
+renderStudentInfo(username);
+renderStudentAttendance(username);
+renderStudentNotes(username);
+setupStudentNav(username);
+document.getElementById('submitComplaint').addEventListener('click', ()=> submitComplaint(username));
+</script>
+</body>
+</html>

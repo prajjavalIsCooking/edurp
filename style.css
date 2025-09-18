@@ -1,0 +1,96 @@
+:root{
+  --primary:#0ea5a5;
+  --muted:#64748b;
+  --glass-bg: rgba(255,255,255,0.70);
+  --card-shadow: 0 10px 30px rgba(2,6,23,0.08);
+}
+*{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial}
+html,body{height:100%;margin:0}
+body.lundRUlogin{
+  background-image: url("RU.jpeg");
+     background-size: cover;        
+    background-position: center;   
+    background-repeat: no-repeat;  
+    height: 100vh;                 
+    margin: 0;
+}
+body{
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(14,165,165,0.08), transparent 10%),
+    radial-gradient(1000px 400px at 90% 90%, rgba(96,165,250,0.06), transparent 10%),
+    linear-gradient(180deg,#f7fbff 0%, #eef7f9 100%);
+  color:#0f172a;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* center login */
+.center-viewport{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.glass-card{background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.82)); border-radius:12px; padding:22px; box-shadow:0 8px 24px rgba(0, 0, 0, 0.25); width:360px;backdrop-filter: blur(12px);                     
+    -webkit-backdrop-filter: blur(12px);             
+    border: 1px solid rgba(255, 255, 255, 0.3);      }
+.login-box h2{margin:0 0 6px; color:#222}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+
+/*
+.glass-card {
+    background: rgba(255, 255, 255, 0.25);           
+    box-shadow:       
+    maakabhosda kaise kru
+var(--card-shadow)
+}
+}
+*/
+
+
+/* layout */
+.app{display:flex;min-height:100vh;}
+.sidebar{
+  width:260px;
+  background:linear-gradient(180deg,#071126,#0b2540);
+  color:#cfeafe;padding:18px 14px;position:relative;
+  box-shadow: 8px 0 30px rgba(2,6,23,0.06);
+}
+.brand{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+.logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,#60a5fa,#0b74b4);display:grid;place-items:center;font-weight:800;color:#042a4a}
+.nav{display:flex;flex-direction:column;gap:8px}
+.nav button{background:transparent;border:none;color:inherit;text-align:left;padding:10px;border-radius:8px;cursor:pointer;font-size:15px}
+.nav button.active{background:rgba(255,255,255,0.03)}
+.main{flex:1;padding:22px}
+
+/* top and cards */
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px}
+.card{background:var(--glass-bg);padding:14px;border-radius:10px;box-shadow:var(--card-shadow)}
+.table-wrap{background:var(--glass-bg);padding:12px;border-radius:10px;box-shadow:var(--card-shadow)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;text-align:left;border-bottom:1px solid rgba(2,6,23,0.06);font-size:14px}
+th{background:transparent}
+.btn{padding:8px 12px;border-radius:8px;border:none}
+.primary{background:var(--primary);color:white}
+.ghost{background:transparent;border:1px solid rgba(2,6,23,0.06);color:#062a4f}
+.muted{color:var(--muted);font-size:13px}
+
+/* forms & modal */
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.form-grid .full{grid-column:1/-1}
+input, textarea, select{width:100%;padding:9px;border-radius:8px;border:1px solid rgba(2,6,23,0.06)}
+textarea{min-height:80px;resize:vertical}
+.modal{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.45);z-index:100;
+  opacity:0;pointer-events:none;transition:opacity .28s ease;
+}
+.modal.open{opacity:1;pointer-events:all}
+.panel{
+  width:720px;max-width:96%;background:white;border-radius:12px;padding:16px;box-shadow:0 30px 80px rgba(2,6,23,0.12);
+  transform:translateY(-30px);opacity:0;transition:transform .28s ease, opacity .28s ease;
+}
+.modal.open .panel{transform:translateY(0);opacity:1}
+
+/* responsive */
+@media (max-width:880px){
+  .sidebar{display:none}
+  .panel{width:92%}
+  .form-grid{grid-template-columns:1fr}
+}
